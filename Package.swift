@@ -6,18 +6,17 @@ import PackageDescription
 let package = Package(
     name: "AresCore",
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "AresCore",
             targets: ["AresCore"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/nmdias/FeedKit.git", from: "9.1.2"),
+        .package(url: "https://github.com/brightdigit/SyndiKit.git", from: "0.3.4"),
+        .package(url: "https://github.com/joaoc-pires/opml.git", branch: "master"),
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "AresCore"),
-        .testTarget(
-            name: "AresCoreTests",
-            dependencies: ["AresCore"]),
     ]
 )
