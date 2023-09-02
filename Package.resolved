@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/joaoc-pires/SimpleNetwork",
       "state" : {
-        "revision" : "0a7f0d856b5bb13c8cb8f75abe17a0d6b21325cd",
-        "version" : "1.0.0"
+        "revision" : "e5e851cd5dc84751d200195b16a500cea16c46b4",
+        "version" : "1.0.2"
       }
     },
     {
@@ -43,6 +43,15 @@
       "state" : {
         "revision" : "26ed3a2b4a2df47917ca9b790a57f91285b923fb",
         "version" : "1.12.0"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup",
+      "state" : {
+        "revision" : "8b6cf29eead8841a1fa7822481cb3af4ddaadba6",
+        "version" : "2.6.1"
       }
     },
     {

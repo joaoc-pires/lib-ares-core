@@ -1,6 +1,6 @@
 import Foundation
 
-struct ARSCEntry {
+public struct ARSCEntry {
     
     /// The ID of the entry is the URL for the item in the publisher website
     let id: String

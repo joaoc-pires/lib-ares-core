@@ -1,7 +1,7 @@
 import Foundation
 
 /// This Object is the container of the feed. If contains all the publisher info and the published items/entries on the feed
-struct ARSCFeed {
+public struct ARSCFeed {
     
     /// The ID is the Syndication URL.
     let id: String

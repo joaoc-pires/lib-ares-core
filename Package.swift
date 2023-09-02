@@ -19,6 +19,7 @@ let package = Package(
         .package(url: "https://github.com/brightdigit/SyndiKit.git", from: "0.3.4"),
         .package(url: "https://github.com/joaoc-pires/opml.git", branch: "master"),
         .package(url: "https://github.com/joaoc-pires/SimpleNetwork", from: "1.0.0"),
+        .package(url: "https://github.com/scinfu/SwiftSoup", from: "2.6.1"),
         
     ],
     targets: [
@@ -28,6 +29,7 @@ let package = Package(
                     .product(name: "SyndiKit",      package: "SyndiKit"),
                     .product(name: "OPML",          package: "opml"),
                     .product(name: "SimpleNetwork", package: "SimpleNetwork"),
+                    .product(name: "SwiftSoup",     package: "SwiftSoup"),
                 ])
     ]
 )
