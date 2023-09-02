@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "AresCore",
+    platforms: [
+        .macOS(.v14),
+        .iOS(.v17)
+    ],
     products: [
         .library(
             name: "AresCore",
@@ -14,9 +18,10 @@ let package = Package(
         .package(url: "https://github.com/nmdias/FeedKit.git", from: "9.1.2"),
         .package(url: "https://github.com/brightdigit/SyndiKit.git", from: "0.3.4"),
         .package(url: "https://github.com/joaoc-pires/opml.git", branch: "master"),
+        .package(url: "https://github.com/joaoc-pires/SimpleNetwork", from: "1.0.0"),
     ],
     targets: [
-        .target(
-            name: "AresCore"),
+        .target(name: "AresCore",
+                dependencies: ["SimpleNetwork", "opml", "SyndiKit", "FeedKit"])
     ]
 )

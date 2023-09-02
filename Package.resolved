@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "simplenetwork",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/joaoc-pires/SimpleNetwork",
+      "state" : {
+        "revision" : "0a7f0d856b5bb13c8cb8f75abe17a0d6b21325cd",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "swift-html",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hallee/swift-html.git",
