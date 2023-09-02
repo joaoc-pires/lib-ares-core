@@ -17,7 +17,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/nmdias/FeedKit.git", from: "9.1.2"),
         .package(url: "https://github.com/brightdigit/SyndiKit.git", from: "0.3.4"),
-        .package(url: "https://github.com/joaoc-pires/opml.git", branch: "master"),
         .package(url: "https://github.com/joaoc-pires/SimpleNetwork", from: "1.0.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup", from: "2.6.1"),
         
@@ -27,7 +26,6 @@ let package = Package(
                 dependencies: [
                     .product(name: "FeedKit",       package: "FeedKit"),
                     .product(name: "SyndiKit",      package: "SyndiKit"),
-                    .product(name: "OPML",          package: "opml"),
                     .product(name: "SimpleNetwork", package: "SimpleNetwork"),
                     .product(name: "SwiftSoup",     package: "SwiftSoup"),
                 ])
