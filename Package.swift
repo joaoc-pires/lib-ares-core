@@ -19,9 +19,15 @@ let package = Package(
         .package(url: "https://github.com/brightdigit/SyndiKit.git", from: "0.3.4"),
         .package(url: "https://github.com/joaoc-pires/opml.git", branch: "master"),
         .package(url: "https://github.com/joaoc-pires/SimpleNetwork", from: "1.0.0"),
+        
     ],
     targets: [
         .target(name: "AresCore",
-                dependencies: ["SimpleNetwork", "opml", "SyndiKit", "FeedKit"])
+                dependencies: [
+                    .product(name: "FeedKit",       package: "FeedKit"),
+                    .product(name: "SyndiKit",      package: "SyndiKit"),
+                    .product(name: "OPML",          package: "opml"),
+                    .product(name: "SimpleNetwork", package: "SimpleNetwork"),
+                ])
     ]
 )
