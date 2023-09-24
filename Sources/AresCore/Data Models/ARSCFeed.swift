@@ -4,26 +4,26 @@ import Foundation
 public struct ARSCFeed {
     
     /// The ID is the Syndication URL.
-    let id: String
+    public let id: String
     
     /// Syndication URL used to retrieve the data for the feed.
-    var feedURL: String? { id }
+    public var feedURL: String? { id }
     
     /// Publication name
-    let title: String?
+    public let title: String?
     
     /// Publication URL homepage. If not provided by the feed, it will be filled using FeedURL heuristics, and kept empty if it fails.
-    let link: String?
+    public let link: String?
     
     /// Some publications use this field for tag lines.
-    let subTitle: String?
+    public let subTitle: String?
     
     /// Contains the date the feed was last published.
-    let pubDate: Date?
+    public let pubDate: Date?
     
     /// Contains the publisher logo is available. If the logo is unavailable it will contain heuristics to try and get it, or stay empty if it fails
-    let image: String?
+    public let image: String?
     
     /// contains all of the feed entries
-    let entries: [ARSCEntry]
+    public let entries: [ARSCEntry]
 }
