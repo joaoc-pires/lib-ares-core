@@ -16,7 +16,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/nmdias/FeedKit.git", exact: "9.1.2"),
-        .package(url: "https://github.com/brightdigit/SyndiKit.git", exact: "0.3.4"),
+        .package(url: "https://github.com/brightdigit/SyndiKit.git", exact: "0.3.7"),
         .package(url: "https://github.com/joaoc-pires/SimpleNetwork", exact: "1.0.2"),
         .package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.6.1"),
     ],
