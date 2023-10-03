@@ -13,7 +13,7 @@ final public class AresCore {
         self.log = Logger(subsystem: "SimpleNetwork", category: "NetworkService")
     }
     
-    public func fetch(_ feedURL: String, completion: @escaping (Result<ARSCFeed, NetworkError>) -> (Void)) {
+    public func fetch(_ feedURL: String, completion: @escaping (Result<ARSCFeed, AresCoreError>) -> (Void)) {
         let request = Request(url: feedURL, settings: self.settings)
         let networkService = NetworkService()
         networkService.fire(request: request) { result in
@@ -28,10 +28,11 @@ final public class AresCore {
                                 case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(withID: feedURL)))
                                 case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(withID: feedURL)))
                             }
-                        case .failure(_):
+                        case .failure(let error):
                             self.log.error("failed to parse '\(data.count) bytes' from '\(feedURL)'")
+                            completion(.failure(.parsingError(error)))
                     }
-                case .failure(let error): completion(.failure(error))
+                case .failure(let error): completion(.failure(.networkError(error)))
             }
         }
     }
