@@ -10,12 +10,12 @@
       }
     },
     {
-      "identity" : "simplenetwork",
+      "identity" : "lib-simple-network",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/joaoc-pires/SimpleNetwork",
+      "location" : "https://github.com/joaoc-pires/lib-simple-network",
       "state" : {
-        "revision" : "e5e851cd5dc84751d200195b16a500cea16c46b4",
-        "version" : "1.0.2"
+        "revision" : "67e11b79e304a7ac9bc39e0cf28fc0e055f216d7",
+        "version" : "1.0.3"
       }
     },
     {

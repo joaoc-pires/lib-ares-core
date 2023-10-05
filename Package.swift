@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/nmdias/FeedKit.git", exact: "9.1.2"),
         .package(url: "https://github.com/brightdigit/SyndiKit.git", exact: "0.3.7"),
-        .package(url: "https://github.com/joaoc-pires/SimpleNetwork", exact: "1.0.2"),
+        .package(url: "https://github.com/joaoc-pires/lib-simple-network", exact: "1.0.3"),
         .package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.6.1"),
     ],
     targets: [
@@ -25,7 +25,7 @@ let package = Package(
                 dependencies: [
                     .product(name: "FeedKit",       package: "FeedKit"),
                     .product(name: "SyndiKit",      package: "SyndiKit"),
-                    .product(name: "SimpleNetwork", package: "SimpleNetwork"),
+                    .product(name: "SimpleNetwork", package: "lib-simple-network"),
                     .product(name: "SwiftSoup",     package: "SwiftSoup"),
                 ])
     ]
