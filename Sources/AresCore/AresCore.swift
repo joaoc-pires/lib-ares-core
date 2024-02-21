@@ -10,9 +10,32 @@ final public class AresCore {
     
     public init(with defaultSettings: UserDefaults? = nil) {
         self.settings = defaultSettings ?? UserDefaults.standard
-        self.log = Logger(subsystem: "SimpleNetwork", category: "NetworkService")
+        self.log = Logger(subsystem: "AresCore", category: "AresCoreService")
     }
     
+    /// Starts the synchronous download of multiple feeds. The result will be published using NotificationCenter. Any object that wants to receive the **successful** results of these operations must listen to Notification.Name.feedFinishedDownload
+    /// - Parameter feeds: A list of ARSCFeed
+    public func fetch(_ feeds: [ARSCFeed]) {
+        fetch(feeds.map({ $0.id }))
+    }
+    
+    /// Starts the synchronous download of multiple feeds. The result will be published using NotificationCenter. Any object that wants to receive the **successful** results of these operations must listen to Notification.Name.feedFinishedDownload
+    /// - Parameter feeds: A list of URL strings
+    public func fetch(_ feeds: [String]) {
+        for feed in feeds {
+            fetch(feed) { result in
+                switch result {
+                    case .success(let newFeed): NotificationCenter.default.post(name: .feedFinishedDownload, object: newFeed)
+                    case .failure(let error): self.log.error("failed to synchronously download '\(feed)' with error '\(error)', '\(error.localizedDescription)'")
+                }
+            }
+        }
+    }
+    
+    /// Starts a synchronous download of a given feed
+    /// - Parameters:
+    ///   - feedURL: the url of the feed to download
+    ///   - completion: a closure that returns a Result type with either the feed, or the error it might have encountered when downloading and parsing
     public func fetch(_ feedURL: String, completion: @escaping (Result<ARSCFeed, AresCoreError>) -> (Void)) {
         let request = Request(url: feedURL, settings: self.settings)
         let networkService = NetworkService()
@@ -37,6 +60,9 @@ final public class AresCore {
         }
     }
     
+    /// Starts an asynchronous download of a given feed URL
+    /// - Parameter feedURL: the url of the feed to download
+    /// - Returns: ARSCFeed object representing that feed, or throws any error in might have encountered when downloading and parsing
     public func fetch(_ feedURL: String) async throws -> ARSCFeed {
         try await withCheckedThrowingContinuation { continuation in
             fetch(feedURL) { result in
