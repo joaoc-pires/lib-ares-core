@@ -96,11 +96,7 @@ final public class AresCore {
             if response.allHeaderFields.keys.contains("Etag"), let etagValue = response.allHeaderFields["Etag"] as? String {
                 UserDefaults.standard.setValue(etagValue, forKey: kEtag)
             }
-            if data.count == 0 {
-                return UserDefaults.standard.data(forKey: kData)
-            }
-            UserDefaults.standard.setValue(data, forKey: kData)
-            return data
+            return nil
         }
     }
 }
