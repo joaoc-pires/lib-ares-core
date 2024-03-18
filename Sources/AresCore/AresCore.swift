@@ -42,6 +42,10 @@ final public class AresCore {
         networkService.fire(request: request) { result in
             switch result {
                 case .success(let data):
+                    guard !data.isEmpty else {
+                        completion(.failure(.cachedReply))
+                        return
+                    }
                     let parsedResult = FeedParser(data: data).parse()
                     switch parsedResult {
                         case .success(let feed):
