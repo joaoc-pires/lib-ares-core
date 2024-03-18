@@ -10,7 +10,7 @@ public struct ARSCFeed: Identifiable {
     public var feedURL: String? { id }
     
     /// Publication name
-    public let title: String?
+    public var title: String?
     
     /// Publication URL homepage. If not provided by the feed, it will be filled using FeedURL heuristics, and kept empty if it fails.
     public let link: String?
