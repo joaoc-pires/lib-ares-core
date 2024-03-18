@@ -74,6 +74,19 @@ final public class AresCore {
         }
     }
 
+    // Deletes the etag for a specific URL
+    public func deleteCache(for feedURL: String) {
+        let request = AresCore.Request(url: feedURL, settings: settings)
+        let etagKey = request.kEtag
+        settings.removeObject(forKey: etagKey)
+    }
+    
+    // Deletes all the cached etags
+    public func deleteCache() {
+        for key in settings.dictionaryRepresentation().keys {
+            settings.removeObject(forKey: key)
+        }
+    }
     
     private struct Request: NetworkRequest {
         var url: String
@@ -81,8 +94,8 @@ final public class AresCore {
         var method: SimpleNetwork.HTTPMethod { .get }
         var sessionDelegate: (URLSessionTaskDelegate)?
         
-        var kEtag: String { return "kEtag\(String(describing: self))" }
-        var kData: String { return "kData\(String(describing: self))" }
+        var kEtag: String { return "kEtag\(url)" }
+        var kData: String { return "kData\(url)" }
         
         private var settings: UserDefaults
         
