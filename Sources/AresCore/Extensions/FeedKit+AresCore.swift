@@ -78,7 +78,7 @@ extension FeedKit.RSSFeedItem {
             author: author ?? dublinCore?.dcCreator,
             content: content?.contentEncoded ?? description,
             contentType: self.dublinCore?.dcType,
-            publishedDate: pubDate,
+            publishedDate: pubDate ?? dublinCore?.dcDate,
             thumbnail: media?.mediaThumbnails?.first?.value ?? content?.contentEncoded?.firstImageLink ?? description?.firstImageLink,
             updatedDate: pubDate,
             publisherID: publisherID
