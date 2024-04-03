@@ -92,28 +92,37 @@ final public class AresCore {
         }
     }
     
-    private struct Request: NetworkRequest {
-        var url: String
-        var eTag: String? { UserDefaults.standard.string(forKey: kEtag) }
-        var method: SimpleNetwork.HTTPMethod { .get }
-        var sessionDelegate: (URLSessionTaskDelegate)?
+    public struct Request: NetworkRequest, Hashable {
         
-        var kEtag: String { return "kEtag\(url)" }
-        var kData: String { return "kData\(url)" }
+        public var url: String
+        public var eTag: String? { UserDefaults.standard.string(forKey: kEtag) }
+        public var method: SimpleNetwork.HTTPMethod { .get }
+        public var sessionDelegate: (URLSessionTaskDelegate)?
+        
+        public var kEtag: String { return "kEtag\(url)" }
+        public var kData: String { return "kData\(url)" }
         
         private var settings: UserDefaults
         
-        init(url: String, sessionDelegate: URLSessionTaskDelegate? = nil, settings: UserDefaults) {
+        public init(url: String, sessionDelegate: URLSessionTaskDelegate? = nil, settings: UserDefaults) {
             self.url = url
             self.sessionDelegate = sessionDelegate
             self.settings = settings
         }
 
-        func getETagDataIfAvailable(_ response: HTTPURLResponse, _ data: Data) -> Data? {
+        public func getETagDataIfAvailable(_ response: HTTPURLResponse, _ data: Data) -> Data? {
             if response.allHeaderFields.keys.contains("Etag"), let etagValue = response.allHeaderFields["Etag"] as? String {
                 UserDefaults.standard.setValue(etagValue, forKey: kEtag)
             }
             return nil
+        }
+        
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(url)
+        }
+        
+        public static func == (lhs: AresCore.Request, rhs: AresCore.Request) -> Bool {
+            lhs.url == rhs.url
         }
     }
 }
