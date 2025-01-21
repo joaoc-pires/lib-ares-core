@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/joaoc-pires/lib-simple-network",
       "state" : {
-        "revision" : "59518747cfde61ef88756553ecd6df9371536652",
-        "version" : "1.1.2"
+        "revision" : "bda37aebdce501a6b84e80cd9c6a970f1f066841",
+        "version" : "1.2.0"
       }
     },
     {
