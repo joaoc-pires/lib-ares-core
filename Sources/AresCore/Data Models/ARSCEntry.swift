@@ -31,4 +31,26 @@ public struct ARSCEntry: Identifiable {
     
     /// The publisher ID, that can be used to reference the publisher if needed
     public var publisherID: String
+    
+    /// Public initializer for ARSCEntry
+    public init(
+    id: String,
+    title: String? = nil,
+    author: String? = nil,
+    content: String? = nil,
+    contentType: String? = nil,
+    publishedDate: Date? = nil,
+    thumbnail: String? = nil,
+    updatedDate: Date? = nil,
+    publisherID: String) {
+        self.id = id
+        self.title = title
+        self.author = author
+        self.content = content
+        self.contentType = contentType
+        self.publishedDate = publishedDate
+        self.thumbnail = thumbnail
+        self.updatedDate = updatedDate
+        self.publisherID = publisherID
+    }
 }

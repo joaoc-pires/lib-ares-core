@@ -26,4 +26,23 @@ public struct ARSCFeed: Identifiable {
     
     /// contains all of the feed entries
     public let entries: [ARSCEntry]
+    
+    /// Public initializer for ARSCFeed
+    public init(
+        id: String,
+        title: String? = nil,
+        link: String? = nil,
+        subTitle: String? = nil,
+        pubDate: Date? = nil,
+        image: String? = nil,
+        entries: [ARSCEntry] = []
+    ) {
+        self.id = id
+        self.title = title
+        self.link = link
+        self.subTitle = subTitle
+        self.pubDate = pubDate
+        self.image = image
+        self.entries = entries
+    }
 }
