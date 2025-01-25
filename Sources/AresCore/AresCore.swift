@@ -3,7 +3,7 @@ import SimpleNetwork
 import FeedKit
 import OSLog
 
-final public class AresCore {
+public class AresCore {
     
     private var settings: UserDefaults
     private var log: Logger
