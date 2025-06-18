@@ -7,12 +7,27 @@ public class AresCore {
     
     private var settings: UserDefaults
     private var log: Logger
+    private var suppressLogs: Bool
     
-    public init(with defaultSettings: UserDefaults? = nil) {
+    public init(with defaultSettings: UserDefaults? = nil, supressLogs: Bool = false) {
         self.settings = defaultSettings ?? UserDefaults.standard
         self.log = Logger(subsystem: "AresCore", category: "AresCoreService")
+        self.suppressLogs = supressLogs
     }
-        
+    private enum LogMessageType {
+        case info
+        case error
+        case debug
+    }
+    private func logMessage(_ message: String, _ type: LogMessageType) {
+        guard !suppressLogs else { return }
+        switch type {
+            case .info: log.info("\(message)")
+            case .error: log.error("\(message)")
+            case .debug: log.debug("\(message)")
+        }
+    }
+    
     /// Starts a synchronous download of a given feed
     /// - Parameters:
     ///   - feedURL: the url of the feed to download
@@ -30,14 +45,14 @@ public class AresCore {
                     let parsedResult = FeedParser(data: data).parse()
                     switch parsedResult {
                         case .success(let feed):
-                            self.log.info("parsed '\(data.count) bytes' from '\(feedURL)'")
+                            self.logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
                             switch feed {
                                 case let .atom(atomFeed):   completion(.success(atomFeed.aresFeed(withID: feedURL)))
                                 case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(withID: feedURL)))
                                 case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(withID: feedURL)))
                             }
                         case .failure(let error):
-                            self.log.error("failed to parse '\(data.count) bytes' from '\(feedURL)'")
+                            self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
                             completion(.failure(.parsingError(error)))
                     }
                 case .failure(let error): completion(.failure(.networkError(error)))
@@ -62,14 +77,14 @@ public class AresCore {
         let parsedResult = FeedParser(data: data).parse()
         switch parsedResult {
             case .success(let feed):
-                self.log.info("parsed '\(data.count) bytes' from '\(feedURL)'")
+                logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
                 switch feed {
                     case let .atom(atomFeed):   return atomFeed.aresFeed(withID: feedURL)
                     case let .rss(rssFeed):     return rssFeed.aresFeed(withID: feedURL)
                     case let .json(jsonFeed):   return jsonFeed.aresFeed(withID: feedURL)
                 }
             case .failure(let error):
-                self.log.error("failed to parse '\(data.count) bytes' from '\(feedURL)'")
+                self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
                 throw .parsingError(error)
         }
     }
