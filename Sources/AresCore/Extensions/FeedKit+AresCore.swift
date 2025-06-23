@@ -11,13 +11,19 @@ import FeedKit
 // MARK: - Atom Feed
 extension FeedKit.AtomFeed {
     func aresFeed(withID feedID: String) -> ARSCFeed {
+        let potentialUrl = self.links?.first?.attributes?.href ?? feedID
+        let hostUrl = Heuristics.hostPageURL(from: potentialUrl)
+        let icon = Heuristics.icon(
+            from: self.icon?.firstImageLink?.firstImageLink,
+            fromHostURL: hostUrl
+        )
         let result = ARSCFeed(
             id: feedID,
             title: self.title ?? String(),
-            link: self.links?.first?.attributes?.href,
+            hostUrl: hostUrl,
             subTitle: self.subtitle?.value,
             pubDate: self.updated,
-            image: self.icon?.firstImageLink?.firstImageLink ?? "\(self.id ?? String())/favicon.ico",
+            icon: icon,
             entries: (self.entries ?? []).map({ $0.aresItem(from: feedID) })
         )
         return result
@@ -57,13 +63,19 @@ extension Array where Element: AtomFeedEntryAuthor {
 // MARK: - RSS Feed
 extension FeedKit.RSSFeed {
     func aresFeed(withID feedID: String) -> ARSCFeed {
+        let potentialUrl = self.link ?? feedID
+        let hostUrl = Heuristics.hostPageURL(from: potentialUrl)
+        let icon = Heuristics.icon(
+            from: self.image?.url,
+            fromHostURL: hostUrl
+        )
         let result = ARSCFeed(
             id: feedID,
             title: self.title ?? String(),
-            link: self.link,
+            hostUrl: hostUrl,
             subTitle: self.description,
             pubDate: self.pubDate,
-            image: self.image?.url ?? "\(self.link ?? String())/favicon.ico",
+            icon: icon,
             entries: (self.items ?? []).map({ $0.aresItem(from: feedID) })
         )
         return result
@@ -89,13 +101,19 @@ extension FeedKit.RSSFeedItem {
 // MARK: - JSON Feed
 extension FeedKit.JSONFeed {
     func aresFeed(withID feedID: String) -> ARSCFeed {
+        let potentialUrl = self.feedUrl ?? feedID
+        let hostUrl = Heuristics.hostPageURL(from: potentialUrl)
+        let icon = Heuristics.icon(
+            from: self.icon,
+            fromHostURL: hostUrl
+        )
         let result = ARSCFeed(
             id: feedID,
             title: self.title ?? String(),
-            link: self.feedUrl,
+            hostUrl: hostUrl,
             subTitle: self.description,
             pubDate: nil,
-            image: self.icon ?? "\(self.feedUrl ?? String())/favicon.ico",
+            icon: icon,
             entries: (self.items ?? []).map({ $0.aresItem(from: feedID) })
         )
         return result
