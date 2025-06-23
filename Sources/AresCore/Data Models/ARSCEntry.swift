@@ -6,7 +6,7 @@ public struct ARSCEntry: Identifiable {
     public let id: String
     
     /// URL for the item in the publisher website.
-    public var entryURL: String? { id }
+    public var entryUrl: String? { id }
     
     /// Entry title
     public var title: String?
@@ -21,16 +21,13 @@ public struct ARSCEntry: Identifiable {
     public var contentType: String?
     
     /// The date the entry was published
-    public var publishedDate: Date?
+    public var pubDate: Date?
     
     /// This will either be the Image provided in the feed if it exists, or heuristics of the first image in the feed (if so configured), otherwise it will be empty.
     public var thumbnail: String?
-    
-    /// the date the entry was last updated
-    public var updatedDate: Date?
-    
+        
     /// The publisher ID, that can be used to reference the publisher if needed
-    public var publisherID: String
+    public var publisherId: String
     
     /// Public initializer for ARSCEntry
     public init(
@@ -39,18 +36,17 @@ public struct ARSCEntry: Identifiable {
     author: String? = nil,
     content: String? = nil,
     contentType: String? = nil,
-    publishedDate: Date? = nil,
+    pubDate: Date? = nil,
     thumbnail: String? = nil,
     updatedDate: Date? = nil,
-    publisherID: String) {
+    publisherId: String) {
         self.id = id
         self.title = title
         self.author = author
         self.content = content
         self.contentType = contentType
-        self.publishedDate = publishedDate
+        self.pubDate = pubDate
         self.thumbnail = thumbnail
-        self.updatedDate = updatedDate
-        self.publisherID = publisherID
+        self.publisherId = publisherId
     }
 }

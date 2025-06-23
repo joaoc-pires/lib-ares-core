@@ -11,6 +11,31 @@ import Playgrounds
 
 public struct Heuristics {
     
+    static func sanitize(_ string: String?) -> String? {
+        guard var string = string else {
+            return string
+        }
+        let entities: [(String, String)] = [
+            ("&amp;", "&"),
+            ("&apos;", "'"),
+            ("&quot;", "\""),
+            ("&lt;", "<"),
+            ("&gt;", ">"),
+            ("&#8211;", "–"),
+            ("&#8212;", "—"),
+            ("&#8216;", "‘"),
+            ("&#8217;", "’"),
+            ("&#8220;", "“"),
+            ("&#8221;", "”"),
+            ("&#8230;", "…"),
+            ("&nbsp;", " "),
+        ]
+        for (entity, character) in entities {
+            string = string.replacingOccurrences(of: entity, with: character)
+        }
+        return string
+    }
+    
     static func hostPageURL(from feedURLString: String) -> String {
         guard var components = URLComponents(string: feedURLString),
               let host = components.host else {
@@ -64,5 +89,29 @@ public struct Heuristics {
             return "https://icons.duckduckgo.com/ip3/\(fromHostURL).ico"
         }
         return iconString
+    }
+    
+    static func safeAuthors(from authors: [String?]) -> String {
+        var authorsString = [String]()
+        for author in authors {
+            if var authorString = sanitize(author) {
+                authorString = authorString.replacingOccurrences(of: "\n", with: "")
+                authorsString.append(authorString)
+            }
+        }
+        return authorsString.joined(separator: ", ")
+    }
+
+    
+    static func safeAuthors(from authors: String?...) -> String {
+        return safeAuthors(from: authors)
+    }
+    
+    static func safeTitle(from title: String?) -> String? {
+        return sanitize(title)
+    }
+    
+    static func safeContent(from content: String?) -> String? {
+        return sanitize(content)
     }
 }
