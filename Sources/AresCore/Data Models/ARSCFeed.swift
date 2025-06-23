@@ -7,7 +7,7 @@ public struct ARSCFeed: Identifiable {
     public let id: String
     
     /// Syndication URL used to retrieve the data for the feed.
-    public var feedURL: String { id }
+    public var feedUrl: String { id }
     
     /// Publication name
     public var title: String?
