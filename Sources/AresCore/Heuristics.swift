@@ -21,7 +21,7 @@ public struct Heuristics {
     /// And if we one sometimes doesn't do something just for the fun of it, what the fuck are we doing on this planet?
     private static let key = "AresCoreLibrary"
     
-    static func generateStableID(from title: String, url: String) -> String {
+    public static func generateStableID(from title: String, url: String) -> String {
         let base64 = "\(url)|\(title)"
         let safeguardKey = UUID().uuidString
         guard let data = Data(base64Encoded: base64) else { return safeguardKey }
@@ -34,7 +34,7 @@ public struct Heuristics {
         return String(bytes: decodedBytes, encoding: .utf8) ?? safeguardKey
     }
     
-    static func decodeId(from idString: String) -> String? {
+    public static func decodeId(from idString: String) -> String? {
         guard let data = Data(base64Encoded: idString) else { return nil }
         let keyBytes = Array(key.utf8)
 
@@ -45,7 +45,7 @@ public struct Heuristics {
         return String(bytes: decodedBytes, encoding: .utf8)
     }
     
-    static func sanitize(_ string: String?) -> String? {
+    public static func sanitize(_ string: String?) -> String? {
         guard var string = string else {
             return string
         }
@@ -70,7 +70,7 @@ public struct Heuristics {
         return string
     }
     
-    static func hostPageURL(from feedURLString: String) -> String {
+    public static func hostPageURL(from feedURLString: String) -> String {
         guard var components = URLComponents(string: feedURLString),
               let host = components.host else {
             return ""
@@ -102,7 +102,7 @@ public struct Heuristics {
         return components.string ?? ""
     }
     
-    static func firstImage(from content: String?) -> String? {
+    public static func firstImage(from content: String?) -> String? {
         guard let content else { return nil }
         guard let document: Document = try? SwiftSoup.parse(content.htmlDecoded) else { return nil }
         guard let images = try? document.select("img") else { return nil }
@@ -118,14 +118,14 @@ public struct Heuristics {
 
     }
     
-    static func icon(from iconString: String?, fromHostURL: String) -> String {
+    public static func icon(from iconString: String?, fromHostURL: String) -> String {
         guard let iconString else {
             return "https://icons.duckduckgo.com/ip3/\(fromHostURL).ico"
         }
         return iconString
     }
     
-    static func safeAuthors(from authors: [String?]) -> String {
+    public static func safeAuthors(from authors: [String?]) -> String {
         var authorsString = [String]()
         for author in authors {
             if var authorString = sanitize(author) {
@@ -137,15 +137,15 @@ public struct Heuristics {
     }
 
     
-    static func safeAuthors(from authors: String?...) -> String {
+    public static func safeAuthors(from authors: String?...) -> String {
         return safeAuthors(from: authors)
     }
     
-    static func safeTitle(from title: String?) -> String? {
+    public static func safeTitle(from title: String?) -> String? {
         return sanitize(title)
     }
     
-    static func safeContent(from content: String?) -> String? {
+    public static func safeContent(from content: String?) -> String? {
         return sanitize(content)
     }
 }
