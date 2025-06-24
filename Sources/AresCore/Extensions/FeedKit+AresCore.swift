@@ -75,7 +75,7 @@ extension FeedKit.RSSFeed {
         
         let result = ARSCFeed(
             id: id,
-            feedUrl: self.link ?? String(),
+            feedUrl: feedUrl,
             title: safeTitle,
             hostUrl: hostUrl,
             subTitle: self.description ?? String(),
