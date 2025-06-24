@@ -71,35 +71,8 @@ public struct Heuristics {
     }
     
     public static func hostPageURL(from feedURLString: String) -> String {
-        guard var components = URLComponents(string: feedURLString),
-              let host = components.host else {
-            return ""
-        }
-
-        components.query = nil
-        components.fragment = nil
-
-        let feedIndicators: Set<String> = [
-            "feed", "rss", "atom", "feeds", "rss.xml", "feed.xml", "index.xml", "feed.rss"
-        ]
-
-        var pathSegments = components.path
-            .split(separator: "/")
-            .map { $0.lowercased() }
-
-        if let last = pathSegments.last, feedIndicators.contains(last) {
-            pathSegments.removeLast()
-        }
-
-        if host.hasPrefix("feeds.") {
-            components.host = String(host.dropFirst("feeds.".count))
-        } else if host.hasPrefix("rss.") {
-            components.host = String(host.dropFirst("rss.".count))
-        }
-
-        components.path = pathSegments.isEmpty ? "" : "/" + pathSegments.joined(separator: "/")
-
-        return components.string ?? ""
+        guard let host = URL(string: feedURLString)?.host() else { return String() }
+        return "https://\(host)/"
     }
     
     public static func firstImage(from content: String?) -> String? {
