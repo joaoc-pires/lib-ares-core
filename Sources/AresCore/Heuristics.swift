@@ -22,16 +22,17 @@ public struct Heuristics {
     private static let key = "AresCoreLibrary"
     
     public static func generateStableID(from title: String, url: String) -> String {
-        let base64 = "\(url)|\(title)"
+        let input = "\(url)|\(title)"
         let safeguardKey = UUID().uuidString
-        guard let data = Data(base64Encoded: base64) else { return safeguardKey }
+        let inputBytes = Array(input.utf8)
         let keyBytes = Array(key.utf8)
 
-        let decodedBytes = data.enumerated().map { i, byte in
+        let xorBytes = inputBytes.enumerated().map { i, byte in
             byte ^ keyBytes[i % keyBytes.count]
         }
 
-        return String(bytes: decodedBytes, encoding: .utf8) ?? safeguardKey
+        // Encode XOR'd bytes to a base64 string for ID
+        return Data(xorBytes).base64EncodedString()
     }
     
     public static func decodeId(from idString: String) -> String? {
