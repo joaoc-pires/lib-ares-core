@@ -64,10 +64,14 @@ public struct Heuristics {
             ("&#8221;", "”"),
             ("&#8230;", "…"),
             ("&nbsp;", " "),
+            ("\n;", ""),
+            ("\r;", ""),
+            ("\t;", ""),
         ]
         for (entity, character) in entities {
             string = string.replacingOccurrences(of: entity, with: character)
         }
+        string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         return string
     }
     
