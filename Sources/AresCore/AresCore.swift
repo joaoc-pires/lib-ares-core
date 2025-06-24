@@ -33,7 +33,9 @@ public class AresCore {
     ///   - feedURL: the url of the feed to download
     ///   - completion: a closure that returns a Result type with either the feed, or the error it might have encountered when downloading and parsing
     public func fetch(_ feedURL: String, ignoreEtag: Bool = false, completion: @escaping (Result<ARSCFeed, AresCoreError>) -> (Void)) {
-        let request = Request(url: feedURL, settings: self.settings)
+        // making sure everything is HTTPS
+        let safeUrl = feedURL.replacingOccurrences(of: "http://", with: "https://")
+        let request = Request(url: safeUrl, settings: self.settings)
         let networkService = NetworkService()
         networkService.fire(request: request, ignoreEtag: ignoreEtag) { result in
             switch result {
@@ -45,14 +47,14 @@ public class AresCore {
                     let parsedResult = FeedParser(data: data).parse()
                     switch parsedResult {
                         case .success(let feed):
-                            self.logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
+                            self.logMessage("parsed '\(data.count) bytes' from '\(safeUrl)'", .info)
                             switch feed {
-                                case let .atom(atomFeed):   completion(.success(atomFeed.aresFeed(url: feedURL)))
-                                case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(url: feedURL)))
-                                case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(url: feedURL)))
+                                case let .atom(atomFeed):   completion(.success(atomFeed.aresFeed(url: safeUrl)))
+                                case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(url: safeUrl)))
+                                case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(url: safeUrl)))
                             }
                         case .failure(let error):
-                            self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
+                            self.logMessage("failed to parse '\(data.count) bytes' from '\(safeUrl)'", .error)
                             completion(.failure(.parsingError(error)))
                     }
                 case .failure(let error): completion(.failure(.networkError(error)))
@@ -64,7 +66,9 @@ public class AresCore {
     /// - Parameter feedURL: the url of the feed to download
     /// - Returns: ARSCFeed object representing that feed, or throws any error in might have encountered when downloading and parsing
     public func fetch(_ feedURL: String, ignoreEtag: Bool = false) async throws(AresCoreError) -> ARSCFeed {
-        let request = Request(url: feedURL, settings: self.settings)
+        // making sure everything is HTTPS
+        let safeUrl = feedURL.replacingOccurrences(of: "http://", with: "https://")
+        let request = Request(url: safeUrl, settings: self.settings)
         let networkService = NetworkService()
         let data: Data
         do {
@@ -77,14 +81,14 @@ public class AresCore {
         let parsedResult = FeedParser(data: data).parse()
         switch parsedResult {
             case .success(let feed):
-                logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
+                logMessage("parsed '\(data.count) bytes' from '\(safeUrl)'", .info)
                 switch feed {
-                    case let .atom(atomFeed):   return atomFeed.aresFeed(url: feedURL)
-                    case let .rss(rssFeed):     return rssFeed.aresFeed(url: feedURL)
-                    case let .json(jsonFeed):   return jsonFeed.aresFeed(url: feedURL)
+                    case let .atom(atomFeed):   return atomFeed.aresFeed(url: safeUrl)
+                    case let .rss(rssFeed):     return rssFeed.aresFeed(url: safeUrl)
+                    case let .json(jsonFeed):   return jsonFeed.aresFeed(url: safeUrl)
                 }
             case .failure(let error):
-                self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
+                self.logMessage("failed to parse '\(data.count) bytes' from '\(safeUrl)'", .error)
                 throw .parsingError(error)
         }
     }

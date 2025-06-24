@@ -67,6 +67,7 @@ public struct Heuristics {
             ("\n;", ""),
             ("\r;", ""),
             ("\t;", ""),
+            ("http://", "https://"),
         ]
         for (entity, character) in entities {
             string = string.replacingOccurrences(of: entity, with: character)
@@ -127,5 +128,10 @@ public struct Heuristics {
     
     public static func safeContent(from content: String?) -> String? {
         return sanitize(content)
+    }
+    
+    public static func safeUrl(from url: String?) -> String {
+        guard let url else { return String() }
+        return url.replacingOccurrences(of: "http://", with: "https://")
     }
 }

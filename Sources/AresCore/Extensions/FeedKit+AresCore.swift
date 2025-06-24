@@ -36,13 +36,12 @@ extension FeedKit.AtomFeed {
 extension FeedKit.AtomFeedEntry {
     func aresItem(from publisherId: String) -> ARSCEntry {
         let safeTitle = Heuristics.safeTitle(from: self.title) ?? String()
-        let safeUrl = links?.first?.attributes?.href ?? String()
+        let safeUrl = Heuristics.safeUrl(from: links?.first?.attributes?.href)
         let listOfAuthors = self.authors?.map({$0.name ?? String()}) ?? []
         let safeAuthors = Heuristics.safeAuthors(from: listOfAuthors)
         
         let safeContent = Heuristics.safeContent(from: content?.value) ?? String()
         let safeThumbnail = media?.mediaThumbnails?.first?.value ?? Heuristics.firstImage(from: safeContent) ?? String()
-        
         
         let id = Heuristics.generateStableID(from: safeTitle, url: safeUrl)
         
@@ -90,7 +89,7 @@ extension FeedKit.RSSFeed {
 extension FeedKit.RSSFeedItem {
     func aresItem(from publisherId: String) -> ARSCEntry {
         let safeTitle = Heuristics.safeTitle(from: self.title) ?? String()
-        let safeUrl = self.link ?? String()
+        let safeUrl = Heuristics.safeUrl(from: self.link)
         
         let listOfAuthors = (self.author ?? self.dublinCore?.dcCreator)
         let safeAuthors = Heuristics.safeAuthors(from: listOfAuthors)
@@ -148,7 +147,7 @@ extension FeedKit.JSONFeed {
 extension FeedKit.JSONFeedItem {
     func aresItem(from publisherId: String) -> ARSCEntry {
         let safeTitle = Heuristics.safeTitle(from: self.title) ?? String()
-        let safeUrl = self.url ?? String()
+        let safeUrl = Heuristics.safeUrl(from: self.url)
         let safeAuthors = Heuristics.safeAuthors(from: author?.name)
         
         let safeContent = Heuristics.safeContent(from: contentHtml) ?? String()
