@@ -8,8 +8,42 @@
 import Foundation
 import SwiftSoup
 import Playgrounds
+import CryptoKit
 
 public struct Heuristics {
+    
+    /// If you're reading this, you're probably wondering why the hell there's an open string being use for the key of an unsafe, and easily crackable encription.
+    /// Let me assure you, it's not because I'm an idiot, although if I am or not it's still something that can be contested.
+    /// The key and encription method exist only to generate a unique, deterministic, machine readable ID for both entries and feeds.
+    ///
+    /// One could always use just title + url, but honestly, what would be the fun in that.
+    ///
+    /// And if we one sometimes doesn't do something just for the fun of it, what the fuck are we doing on this planet?
+    private static let key = "AresCoreLibrary"
+    
+    static func generateStableID(from title: String, url: String) -> String {
+        let base64 = "\(url)|\(title)"
+        let safeguardKey = UUID().uuidString
+        guard let data = Data(base64Encoded: base64) else { return safeguardKey }
+        let keyBytes = Array(key.utf8)
+
+        let decodedBytes = data.enumerated().map { i, byte in
+            byte ^ keyBytes[i % keyBytes.count]
+        }
+
+        return String(bytes: decodedBytes, encoding: .utf8) ?? safeguardKey
+    }
+    
+    static func decodeId(from idString: String) -> String? {
+        guard let data = Data(base64Encoded: idString) else { return nil }
+        let keyBytes = Array(key.utf8)
+
+        let decodedBytes = data.enumerated().map { i, byte in
+            byte ^ keyBytes[i % keyBytes.count]
+        }
+
+        return String(bytes: decodedBytes, encoding: .utf8)
+    }
     
     static func sanitize(_ string: String?) -> String? {
         guard var string = string else {

@@ -47,9 +47,9 @@ public class AresCore {
                         case .success(let feed):
                             self.logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
                             switch feed {
-                                case let .atom(atomFeed):   completion(.success(atomFeed.aresFeed(withID: feedURL)))
-                                case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(withID: feedURL)))
-                                case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(withID: feedURL)))
+                                case let .atom(atomFeed):   completion(.success(atomFeed.aresFeed(url: feedURL)))
+                                case let .rss(rssFeed):     completion(.success(rssFeed.aresFeed(url: feedURL)))
+                                case let .json(jsonFeed):   completion(.success(jsonFeed.aresFeed(url: feedURL)))
                             }
                         case .failure(let error):
                             self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
@@ -79,9 +79,9 @@ public class AresCore {
             case .success(let feed):
                 logMessage("parsed '\(data.count) bytes' from '\(feedURL)'", .info)
                 switch feed {
-                    case let .atom(atomFeed):   return atomFeed.aresFeed(withID: feedURL)
-                    case let .rss(rssFeed):     return rssFeed.aresFeed(withID: feedURL)
-                    case let .json(jsonFeed):   return jsonFeed.aresFeed(withID: feedURL)
+                    case let .atom(atomFeed):   return atomFeed.aresFeed(url: feedURL)
+                    case let .rss(rssFeed):     return rssFeed.aresFeed(url: feedURL)
+                    case let .json(jsonFeed):   return jsonFeed.aresFeed(url: feedURL)
                 }
             case .failure(let error):
                 self.logMessage("failed to parse '\(data.count) bytes' from '\(feedURL)'", .error)
