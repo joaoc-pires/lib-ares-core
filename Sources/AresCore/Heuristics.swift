@@ -94,7 +94,9 @@ public struct Heuristics {
     
     public static func icon(from iconString: String?, fromHostURL: String) -> String {
         guard let iconString else {
-            return "https://icons.duckduckgo.com/ip3/\(fromHostURL).ico"
+            guard let url = URL(string: fromHostURL) else { return String() }
+            guard let host = url.host else { return String() }
+            return "https://icons.duckduckgo.com/ip3/\(host).ico"
         }
         return iconString
     }
